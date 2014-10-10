@@ -1,0 +1,33 @@
+{
+  "name": "uber-nodesol",
+  "description": "Kafka producer with ZooKeeper discovery support.",
+  "version": "0.3.10",
+  "contributors": [
+    "Saulius Zemaitaitis <saulius@uber.com>",
+    "Raynos <raynos2@gmail.com>"
+  ],
+  "main": "./lib/nodesol.js",
+  "dependencies": {
+    "CBuffer": "0.1.4",
+    "async": "*",
+    "prozess": "0.7.0",
+    "readable-stream": "1.1.9",
+    "uberclass": "1.0.1",
+    "zookeeper-uber": "3.4.6-3-uber-bundled"
+  },
+  "devDependencies": {
+    "jscoverage": "*",
+    "nodemock": "*",
+    "mocha": "*",
+    "should": "*",
+    "sandboxed-module": "*",
+    "jshint": "*"
+  },
+  "scripts": {
+    "test": "mocha -R nyan tests",
+    "jshint": "jshint --config tests/jshint.json lib/*.js"
+  },
+  "engine": {
+    "node": "0.8.x"
+  }
+}
