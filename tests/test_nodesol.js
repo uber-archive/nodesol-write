@@ -282,7 +282,7 @@ describe('NodeSol', function() {
         zookeeper = build_zookeeper_module();
         ns_module = SandboxedModule.load('../lib/nodesol', {
             requires: {
-                'zookeeper': zookeeper,
+                'zookeeper-uber': zookeeper,
                 'prozess': prozess,
                 'os': { hostname: function() { return 'test_host'; }}
             },
