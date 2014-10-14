@@ -1,0 +1,44 @@
+{
+  "name": "uber-nodesol",
+  "description": "Kafka producer with ZooKeeper discovery support.",
+  "version": "0.4.4",
+  "contributors": [
+    "Saulius Zemaitaitis <saulius@uber.com>",
+    "Raynos <raynos2@gmail.com>"
+  ],
+  "main": "./lib/nodesol.js",
+  "dependencies": {
+    "prozess": "0.7.0",
+    "zookeeper-uber": "3.4.6-3-uber-bundled",
+    "CBuffer": "0.1.4",
+    "readable-stream": "1.1.9",
+    "async": "*"
+  },
+  "devDependencies": {
+    "cuid": "^1.2.4",
+    "istanbul": "^0.3.0",
+    "jshint": "*",
+    "observ": "^0.2.0",
+    "opn": "^0.1.2",
+    "pre-commit": "0.0.9",
+    "routes": "^1.2.0",
+    "run-series": "^1.0.2",
+    "stackup": "0.0.5",
+    "tap-spec": "^0.2.0",
+    "tape": "^2.13.4",
+    "time-mock": "^0.1.2"
+  },
+  "scripts": {
+    "fast-test": "npm run jshint && node test/fast.js | tap-spec",
+    "test": "npm run jshint && node test/index.js | tap-spec",
+    "cover": "istanbul cover --report none --print detail test/index.js",
+    "view-cover": "istanbul report html && opn ./coverage/index.html",
+    "jshint": "jshint --verbose lib/*.js"
+  },
+  "engine": {
+    "node": "0.8.x"
+  },
+  "pre-commit": [
+    "fast-test"
+  ]
+}
