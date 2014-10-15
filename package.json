@@ -3,7 +3,6 @@
   "description": "Kafka producer with ZooKeeper discovery support.",
   "version": "0.3.12",
   "contributors": [
-    "Saulius Zemaitaitis <saulius@uber.com>",
     "Raynos <raynos2@gmail.com>"
   ],
   "main": "./lib/nodesol.js",
