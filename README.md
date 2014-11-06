@@ -1,10 +1,8 @@
 # uber-nodesol-write
 
-A queueing Kafka/ZooKeeper client library for Nodejs.
+A queueing Kafka client library for Nodejs.
 
 Messages will be held in a memory queue if broker is unavailable.
-
-ccache/f90cache break zookeeper's installation.  You will need to `CCACHE_DISABLE=1 F90CACHE_DISABLE=1 npm install` or install a different compiler than default apple gcc that works properly with ccache.
 
 ## Usage
 
