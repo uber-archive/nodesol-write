@@ -13,15 +13,6 @@ describe('NodeSol', function() {
     var zookeeper;
 
     describe('broker discovery', function() {
-
-        it('should discover a broker', function(done) {
-            var ns = new NodeSol();
-            ns.connect(function() {
-                ns.topic_brokers.test_topic.length.should.equal(1);
-                done();
-            });
-        });
-
         it('should respect broker_reconnect_after option', function(done) {
             var ns = new NodeSol({broker_reconnect_after: 6741});
             ns.broker_reconnect_after.should.equal(6741);
@@ -58,8 +49,8 @@ describe('NodeSol', function() {
             ns.connect(function() {
                 var producer = ns.get_producer('other_topic');
                 should.exist(producer);
-                producer.broker_host.should.equal('127.0.0.1');
-                producer.broker_port.should.equal('9262');
+                producer.broker_host.should.equal('localhost');
+                producer.broker_port.should.equal(9093);
                 var other_producer = ns.get_producer('other_topic');
                 assert.equal(other_producer, producer);
                 done();
