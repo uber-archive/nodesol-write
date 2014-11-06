@@ -1,4 +1,5 @@
 var should = require('should');
+var assert = require('assert');
 var mock = require('nodemock');
 var async = require('async');
 var SandboxedModule = require('sandboxed-module');
@@ -47,7 +48,7 @@ describe('NodeSol', function() {
                 should.exist(producer);
                 var other_producer = ns.get_producer('test_topic');
                 should.exist(other_producer);
-                producer.should.equal(other_producer);
+                assert.equal(producer, other_producer);
                 done();
             });
         });
@@ -59,8 +60,8 @@ describe('NodeSol', function() {
                 should.exist(producer);
                 producer.broker_host.should.equal('127.0.0.1');
                 producer.broker_port.should.equal('9262');
-                other_producer = ns.get_producer('other_topic');
-                other_producer.should.equal(producer);
+                var other_producer = ns.get_producer('other_topic');
+                assert.equal(other_producer, producer);
                 done();
             });
         });
@@ -75,7 +76,7 @@ describe('NodeSol', function() {
                     if (total_calls === 0) {
                         should.exist(producer1);
                         should.exist(producer2);
-                        producer1.should.equal(producer2);
+                        assert.equal(producer1, producer2);
                         done();
                     }
                 };
