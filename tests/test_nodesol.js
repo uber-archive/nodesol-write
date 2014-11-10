@@ -1,4 +1,5 @@
 var should = require('should');
+var assert = require('assert');
 var mock = require('nodemock');
 var async = require('async');
 var SandboxedModule = require('sandboxed-module');
@@ -12,15 +13,6 @@ describe('NodeSol', function() {
     var zookeeper;
 
     describe('broker discovery', function() {
-
-        it('should discover a broker', function(done) {
-            var ns = new NodeSol();
-            ns.connect(function() {
-                ns.topic_brokers.test_topic.length.should.equal(1);
-                done();
-            });
-        });
-
         it('should respect broker_reconnect_after option', function(done) {
             var ns = new NodeSol({broker_reconnect_after: 6741});
             ns.broker_reconnect_after.should.equal(6741);
@@ -47,7 +39,7 @@ describe('NodeSol', function() {
                 should.exist(producer);
                 var other_producer = ns.get_producer('test_topic');
                 should.exist(other_producer);
-                producer.should.equal(other_producer);
+                assert.equal(producer, other_producer);
                 done();
             });
         });
@@ -57,10 +49,10 @@ describe('NodeSol', function() {
             ns.connect(function() {
                 var producer = ns.get_producer('other_topic');
                 should.exist(producer);
-                producer.broker_host.should.equal('127.0.0.1');
-                producer.broker_port.should.equal('9262');
-                other_producer = ns.get_producer('other_topic');
-                other_producer.should.equal(producer);
+                producer.broker_host.should.equal('localhost');
+                producer.broker_port.should.equal(9093);
+                var other_producer = ns.get_producer('other_topic');
+                assert.equal(other_producer, producer);
                 done();
             });
         });
@@ -75,7 +67,7 @@ describe('NodeSol', function() {
                     if (total_calls === 0) {
                         should.exist(producer1);
                         should.exist(producer2);
-                        producer1.should.equal(producer2);
+                        assert.equal(producer1, producer2);
                         done();
                     }
                 };
