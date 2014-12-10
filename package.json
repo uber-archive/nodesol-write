@@ -1,7 +1,7 @@
 {
   "name": "uber-nodesol-write",
   "description": "Kafka producer.",
-  "version": "1.0.0",
+  "version": "1.0.0-prozess-0.6.1",
   "contributors": [
     "Raynos <raynos2@gmail.com>"
   ],
