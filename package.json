@@ -9,7 +9,7 @@
   "dependencies": {
     "CBuffer": "0.1.4",
     "async": "*",
-    "prozess": "0.7.0",
+    "prozess": "^0.6.1",
     "readable-stream": "1.1.9",
     "uberclass": "1.0.1"
   },
@@ -19,7 +19,8 @@
     "mocha": "*",
     "should": "*",
     "sandboxed-module": "*",
-    "jshint": "*"
+    "jshint": "*",
+    "zookeeper-uber": "^3.4.6-3-uber-bundled-iostop-yosemite"
   },
   "scripts": {
     "test": "mocha -R nyan tests",
