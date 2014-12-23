@@ -19,7 +19,8 @@
     "mocha": "*",
     "should": "*",
     "sandboxed-module": "*",
-    "jshint": "*"
+    "jshint": "*",
+    "buffertools": "*"
   },
   "scripts": {
     "test": "mocha -R nyan tests",

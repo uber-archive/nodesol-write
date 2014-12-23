@@ -4,6 +4,7 @@ var mock = require('nodemock');
 var async = require('async');
 var SandboxedModule = require('sandboxed-module');
 var EventEmitter = require('events').EventEmitter;
+var buffertools = require('buffertools');
 
 
 describe('NodeSol', function() {
@@ -119,6 +120,16 @@ describe('NodeSol', function() {
                 process.nextTick(function() {
                     should.not.exist(err);
                     kafka_mock.messages[0].should.equal("{\"ts\":1369945301.743,\"host\":\"test_host\",\"msg\":\"test_message\"}", function() {});
+                    done();
+                });
+            });
+        });
+        it('should log a byte buffer to specified topic', function(done) {
+            var buf = new Buffer([0x3, 0x4, 0x23, 0x42]);
+            ns.produce('test_buffer', buf, function(err) {
+                process.nextTick(function() {
+                    should.not.exist(err);
+                    assert(buffertools.compare(kafka_mock.messages[0], buf)===0);
                     done();
                 });
             });
