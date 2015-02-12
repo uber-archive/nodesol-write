@@ -135,6 +135,25 @@ describe('NodeSol', function() {
             });
         });
     });
+    describe('kafka producer with shouldAddTopicToMessage set', function() {
+        var ns;
+        beforeEach(function(done) {
+            ns = new NodeSol({broker_reconnect_after: 0, shouldAddTopicToMessage: true});
+            ns.connect(done);
+        });
+
+        it('should log topic in message', function(done) {
+            ns.log_line('test_topic', 'test_message', function(err) {
+                process.nextTick(function() {
+                    kafka_mock.messages[0].should.equal(
+                        "{\"ts\":1369945301.743,\"host\":\"test_host\",\"msg\":\"test_message\",\"topic\":\"test_topic\"}", 
+                        function() {}
+                    );
+                    done();
+                });
+            });
+        });
+    });
 
     describe('failed message queue', function() {
         var ns;
