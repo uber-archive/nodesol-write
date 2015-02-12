@@ -1,7 +1,7 @@
 {
-  "name": "uber-nodesol-write",
+  "name": "nodesol-write",
   "description": "Kafka producer.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "contributors": [
     "Raynos <raynos2@gmail.com>"
   ],
@@ -20,7 +20,8 @@
     "should": "*",
     "sandboxed-module": "*",
     "jshint": "*",
-    "buffertools": "*"
+    "buffertools": "*",
+    "zookeeper-uber": "^3.4.6-3-uber-bundled-iostop-yosemite"
   },
   "scripts": {
     "test": "mocha -R nyan tests",
@@ -28,5 +29,9 @@
   },
   "engine": {
     "node": "0.8.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uber/nodesol-write.git"
   }
 }
