@@ -20,7 +20,8 @@
     "should": "*",
     "sandboxed-module": "*",
     "jshint": "*",
-    "buffertools": "*"
+    "buffertools": "*",
+    "zookeeper-uber": "^3.4.6-3-uber-bundled-iostop-yosemite"
   },
   "scripts": {
     "test": "mocha -R nyan tests",
