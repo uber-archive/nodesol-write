@@ -11,8 +11,7 @@
     "async": "*",
     "prozess": "0.7.0",
     "readable-stream": "1.1.9",
-    "uberclass": "1.0.1",
-    "zookeeper-uber": "^3.4.6-3-uber-bundled-iostop-yosemite"
+    "uberclass": "1.0.1"
   },
   "devDependencies": {
     "jscoverage": "*",
