@@ -4,6 +4,9 @@ A queueing Kafka client library for Nodejs.
 
 Messages will be held in a memory queue if broker is unavailable.
 
+This kafka library only supports writing to kafka. If you want to read
+from kafka please use https://github.com/uber/nodesol
+
 ## Usage
 
 ```js
