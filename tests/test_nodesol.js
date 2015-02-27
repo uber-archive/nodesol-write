@@ -305,7 +305,7 @@ describe('NodeSol', function() {
         ns_module = SandboxedModule.load('../lib/nodesol', {
             requires: {
                 'zookeeper-uber': zookeeper,
-                'prozess': prozess,
+                'prozess-uber': prozess,
                 'os': { hostname: function() { return 'test_host'; }}
             },
             globals: {

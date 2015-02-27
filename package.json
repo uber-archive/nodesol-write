@@ -9,7 +9,7 @@
   "dependencies": {
     "CBuffer": "0.1.4",
     "async": "*",
-    "prozess": "0.7.0",
+    "prozess-uber": "^0.7.0-node0.12",
     "readable-stream": "1.1.9",
     "uberclass": "1.0.1"
   },
