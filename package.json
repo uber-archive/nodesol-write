@@ -21,6 +21,7 @@
     "sandboxed-module": "*",
     "jshint": "*",
     "buffertools": "*",
+    "temp": "*",
     "zookeeper-uber": "^3.4.6-3-uber-bundled-iostop-yosemite"
   },
   "scripts": {

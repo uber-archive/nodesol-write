@@ -1,3 +1,4 @@
+var fs = require('fs');
 var should = require('should');
 var assert = require('assert');
 var mock = require('nodemock');
@@ -15,7 +16,7 @@ describe('NodeSol', function() {
 
     describe('broker discovery', function() {
         it('should respect broker_reconnect_after option', function(done) {
-            var ns = new NodeSol({broker_reconnect_after: 6741});
+            var ns = new NodeSol({broker_reconnect_after: 6741, shouldAddPipelineToMessage: false});
             ns.broker_reconnect_after.should.equal(6741);
             ns.connect(function() {
                 var producer = ns.get_producer('test_topic');
@@ -25,7 +26,7 @@ describe('NodeSol', function() {
         });
 
         it('should return a producer for a broker', function(done) {
-            var ns = new NodeSol();
+            var ns = new NodeSol({shouldAddPipelineToMessage: false});
             ns.connect(function() {
                 var producer = ns.get_producer('test_topic');
                 should.exist(producer);
@@ -34,7 +35,7 @@ describe('NodeSol', function() {
         });
 
         it('should return same producer for same topic', function(done) {
-            var ns = new NodeSol();
+            var ns = new NodeSol({shouldAddPipelineToMessage: false});
             ns.connect(function() {
                 var producer = ns.get_producer('test_topic');
                 should.exist(producer);
@@ -46,7 +47,7 @@ describe('NodeSol', function() {
         });
 
         it('should create a topic a topic if it does not exist', function(done) {
-            var ns = new NodeSol();
+            var ns = new NodeSol({shouldAddPipelineToMessage: false});
             ns.connect(function() {
                 var producer = ns.get_producer('other_topic');
                 should.exist(producer);
@@ -59,7 +60,7 @@ describe('NodeSol', function() {
         });
 
         it('should reuse same producer when reentering call', function(done) {
-            var ns = new NodeSol();
+            var ns = new NodeSol({shouldAddPipelineToMessage: false});
             ns.connect(function() {
                 var total_calls = 2;
                 var producer1, producer2;
@@ -85,7 +86,7 @@ describe('NodeSol', function() {
     describe('kafka producer', function() {
         var ns;
         beforeEach(function(done) {
-            ns = new NodeSol({broker_reconnect_after: 0});
+            ns = new NodeSol({broker_reconnect_after: 0, shouldAddPipelineToMessage: false});
             ns.connect(done);
         });
 
@@ -138,7 +139,7 @@ describe('NodeSol', function() {
     describe('kafka producer with shouldAddTopicToMessage set', function() {
         var ns;
         beforeEach(function(done) {
-            ns = new NodeSol({broker_reconnect_after: 0, shouldAddTopicToMessage: true});
+            ns = new NodeSol({broker_reconnect_after: 0, shouldAddPipelineToMessage: false, shouldAddTopicToMessage: true});
             ns.connect(done);
         });
 
@@ -154,13 +155,65 @@ describe('NodeSol', function() {
             });
         });
     });
+    describe('kafka producer when UBER_PIPELINE env var is defined', function() {
+        var ns;
+
+        beforeEach(function(done) {
+            // we're not actually going to use the /etc/uber/pipeline file, but a temp file
+            process.env.UBER_PIPELINE = "us-west-01";
+            // don't pass shouldAddPipelineToMessage, as it should default to true
+            ns = new NodeSol({broker_reconnect_after: 0});
+            ns.connect(done);
+        });
+
+        it('should log pipeline in message', function(done) {
+            ns.log_line('test_topic', 'test_message', function(err) {
+                process.nextTick(function() {
+                    kafka_mock.messages[0].should.equal(
+                        "{\"ts\":1369945301.743,\"host\":\"test_host\",\"msg\":\"test_message\",\"pipeline\":\"us-west-01\"}",
+                        function() {}
+                    );
+                    done();
+                });
+            });
+        });
+    });
+    describe('kafka producer when /etc/uber/pipeline file is defined', function() {
+        var ns;
+        var temp = require('temp').track();
+
+        beforeEach(function(done) {
+            // we're not actually going to use the /etc/uber/pipeline file, but a temp file
+            var info = temp.openSync('uber-pipeline');
+            fs.write(info.fd, "us-east-01");
+            fs.close(info.fd);
+            var pipelineFile = info.path;
+            delete process.env.UBER_PIPELINE;
+            // don't pass shouldAddPipelineToMessage, as it should default to true
+            ns = new NodeSol({broker_reconnect_after: 0, pipelineFile: pipelineFile});
+            ns.connect(done);
+        });
+
+        it('should log pipeline in message', function(done) {
+            ns.log_line('test_topic', 'test_message', function(err) {
+                process.nextTick(function() {
+                    kafka_mock.messages[0].should.equal(
+                        "{\"ts\":1369945301.743,\"host\":\"test_host\",\"msg\":\"test_message\",\"pipeline\":\"us-east-01\"}",
+                        function() {}
+                    );
+                    done();
+                });
+            });
+        });
+    });
 
     describe('failed message queue', function() {
         var ns;
         beforeEach(function(done) {
             ns = new NodeSol({
                 broker_reconnect_after: 0,
-                queue_limit: 5
+                queue_limit: 5,
+                shouldAddPipelineToMessage: false
             });
             ns.connect(done);
         });
@@ -282,7 +335,7 @@ describe('NodeSol', function() {
         };
 
         // XXX|SZ: this actually relies on timing which is bad
-        var nodesol = new NodeSol({broker_reconnect_after: 7});
+        var nodesol = new NodeSol({broker_reconnect_after: 7, shouldAddPipelineToMessage: false});
         nodesol.connect();
 
         nodesol.produce('test_topic', 'test_message', function() {
