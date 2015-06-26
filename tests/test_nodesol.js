@@ -185,7 +185,7 @@ describe('NodeSol', function() {
         beforeEach(function(done) {
             // we're not actually going to use the /etc/uber/pipeline file, but a temp file
             var info = temp.openSync('uber-pipeline');
-            fs.write(info.fd, "us-east-01");
+            fs.write(info.fd, "us-east-01\n");
             fs.close(info.fd);
             var pipelineFile = info.path;
             delete process.env.UBER_PIPELINE;
