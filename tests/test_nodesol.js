@@ -155,28 +155,6 @@ describe('NodeSol', function() {
             });
         });
     });
-    describe('kafka producer when static-tags.json is defined', function() {
-        var ns;
-
-        beforeEach(function(done) {
-            // we're not actually going to use the /etc/nodesol/static-tags.json file, but a temp file
-            // don't pass shouldAddStaticTags, as it should default to true
-            ns = new NodeSol({broker_reconnect_after: 0});
-            ns.connect(done);
-        });
-
-        it('should log pipeline in message', function(done) {
-            ns.log_line('test_topic', 'test_message', function(err) {
-                process.nextTick(function() {
-                    kafka_mock.messages[0].should.equal(
-                        "{\"ts\":1369945301.743,\"host\":\"test_host\",\"msg\":\"test_message\"}",
-                        function() {}
-                    );
-                    done();
-                });
-            });
-        });
-    });
     describe('kafka producer when /etc/nodesol/static-tags.json file is defined', function() {
         var ns;
         var temp = require('temp').track();
@@ -185,7 +163,6 @@ describe('NodeSol', function() {
             // we're not actually going to use the /etc/nodesol/static-tags.json file, but a temp file
             var info = temp.openSync('static-tags.json');
             fs.write(info.fd, "{\"pipeline\":\"us-east-01\"}");
-            //fs.write(info.fd, "us-east-01\n");
             fs.close(info.fd);
             var staticTagsFile = info.path;
             // don't pass shouldAddStaticTags, as it should default to true
