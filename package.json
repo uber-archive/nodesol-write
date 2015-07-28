@@ -1,7 +1,7 @@
 {
   "name": "nodesol-write",
   "description": "Kafka producer.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "contributors": [
     "Raynos <raynos2@gmail.com>"
   ],
