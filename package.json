@@ -14,19 +14,22 @@
     "uberclass": "1.0.1"
   },
   "devDependencies": {
-    "jscoverage": "*",
-    "nodemock": "*",
-    "mocha": "*",
-    "should": "*",
-    "sandboxed-module": "*",
-    "jshint": "*",
     "buffertools": "*",
+    "jscoverage": "*",
+    "jshint": "*",
+    "mocha": "*",
+    "nodemock": "*",
+    "sandboxed-module": "*",
+    "should": "*",
     "temp": "*",
+    "uber-licence": "^1.5.4",
     "zookeeper-uber": "^3.4.6-3-uber-bundled-iostop-yosemite"
   },
   "scripts": {
     "test": "mocha -R nyan tests",
-    "jshint": "jshint --config tests/jshint.json lib/*.js"
+    "jshint": "jshint --config tests/jshint.json lib/*.js",
+    "add-licence": "uber-licence",
+    "check-licence": "uber-licence --dry"
   },
   "engine": {
     "node": "0.8.x"
